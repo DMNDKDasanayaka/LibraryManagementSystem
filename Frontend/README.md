@@ -1,73 +1,59 @@
-# React + TypeScript + Vite
+📚 Library Management System
+A full-stack web application for managing a library's book collection. Built with React + TypeScript on the frontend and C# .NET Web API with SQLite on the backend.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🗂️ Project Structure
+LibraryManagementSystem/
+├── Backend/                        # C# .NET Web API
+│   ├── Controllers/
+│   │   └── BooksController.cs      # API endpoints (CRUD)
+│   ├── Data/
+│   │   └── LibraryContext.cs       # Entity Framework DB context
+│   ├── Models/
+│   │   └── Book.cs                 # Book data model
+│   ├── Program.cs                  # App configuration & startup
+│   ├── Backend.csproj
+│   └── library.db                  # SQLite database (auto-created)
+│
+└── frontend/                       # React + TypeScript
+    ├── src/
+    │   ├── api/
+    │   │   └── booksapi.ts         # All API call functions
+    │   ├── components/
+    │   │   ├── BookForm.tsx        # Add / Edit book form
+    │   │   └── BookList.tsx        #  book list
+    │   ├── types/
+    │   │   └── index.ts            # TypeScript interfaces
+    │   └── App.tsx                 # Root component
+    ├── package.json
+    └── vite.config.ts
 
-Currently, two official plugins are available:
+## 🚀 Getting Started
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Run the Backend
+cd Backend
+dotnet run
 
-## React Compiler
+### Run the Frontend
+cd frontend
+npm install
+npm run dev
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Expanding the ESLint configuration
+## 🗄️ Database
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+The project uses **SQLite** with **Entity Framework Core** (Code First approach).
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- The database file `library.db` is automatically created in the `Backend/` folder when the app first runs.
+- No database installation or configuration is required.
+- The `Books` table is generated from the `Book.cs` model class automatically.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+##  Architecture
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+This project follows the **MVC (Model-View-Controller)** pattern:
+-----------------------------------------------------------------------------------
+| MVC Layer      | Implementation                                                 |
+|----------------|----------------------------------------------------------------|
+| **Model**      | `Book.cs` — defines the data structure                         |
+| **View**       | React frontend — renders the UI                                |
+| **Controller** | `BooksController.cs` — handles HTTP requests and business logic|
+-----------------------------------------------------------------------------------
