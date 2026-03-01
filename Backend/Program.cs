@@ -1,41 +1,39 @@
+// Program.cs - Application entry point and configuration
+using LibraryApi.Data;
+using Microsoft.EntityFrameworkCore;
+using Swashbuckle.AspNetCore.SwaggerUI;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+// Add Services
+builder.Services.AddControllers(); // Add controllers (handles routing to Controller classes)
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// SQLite Setup
+builder.Services.AddDbContext<LibraryContext>(options =>
+    options.UseSqlite("Data Source=library.db")); // library.db is the SQLite file
+
+// // Allow React frontend to call this API (Enable CORS)
+builder.Services.AddCors(options => {
+    options.AddPolicy("AllowReact", p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
+if (app.Environment.IsDevelopment()) {
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseCors("AllowReact"); // Apply CORS before routing
+app.UseAuthorization();
+app.MapControllers();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+// Auto-create the database on startup if it doesn't exist
+using (var scope = app.Services.CreateScope()) {
+    var db = scope.ServiceProvider.GetRequiredService<LibraryContext>();
+    db.Database.EnsureCreated();// Creates library.db automatically
+}
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
