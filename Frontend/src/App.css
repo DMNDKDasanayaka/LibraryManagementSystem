@@ -1,42 +1,159 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
+        /* ── Full page reset ── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+        html, body, #root {
+          width: 100%;
+          min-height: 100vh;
+          background: #f0f4f8;          /* Light blue-grey fills entire page */
+          font-family: 'Segoe UI', sans-serif;
+        }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
+        /* ── Page wrapper takes full width ── */
+        .app-wrapper {
+          width: 100%;
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+        }
 
-.card {
-  padding: 2em;
-}
+        /* ── Header stretches full width ── */
+        .app-header {
+          width: 100%;
+          background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+          color: white;
+          padding: 36px 20px;
+          text-align: center;
+        }
 
-.read-the-docs {
-  color: #888;
-}
+        .app-header h1 {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 12px;
+          font-size: 2rem;
+          font-weight: 700;
+          letter-spacing: -0.5px;
+        }
+
+        .app-header p {
+          margin-top: 8px;
+          opacity: 0.8;
+          font-size: 1rem;
+        }
+
+        /* ── Centered content area ── */
+        .app-container {
+          width: 100%;
+          max-width: 900px;             /* Wider for desktop */
+          margin: 0 auto;               /* Centers the content */
+          padding: 40px 24px;
+          flex: 1;
+        }
+
+        /* ── Two column layout on desktop ── */
+        .app-layout {
+          display: grid;
+          grid-template-columns: 1fr 1fr;   /* Form left, list right */
+          gap: 32px;
+          align-items: start;
+        }
+
+        /* ── Error Banner ── */
+        .error-banner {
+          background: #fee2e2;
+          color: #991b1b;
+          padding: 12px 16px;
+          border-radius: 8px;
+          margin-bottom: 24px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 14px;
+          grid-column: 1 / -1;           /* Spans both columns */
+        }
+
+        .error-banner button {
+          background: none;
+          border: none;
+          color: #991b1b;
+          cursor: pointer;
+          font-size: 18px;
+        }
+
+        /* ── Edit Banner ── */
+        .edit-banner {
+          background: #eff6ff;
+          border: 1px solid #bfdbfe;
+          border-radius: 8px;
+          padding: 10px 16px;
+          margin-bottom: 16px;
+          font-size: 13px;
+          color: #1d4ed8;
+        }
+
+        /* ── Section Title ── */
+        .section-title {
+          font-size: 1rem;
+          font-weight: 600;
+          color: #1e3a5f;
+          margin-bottom: 16px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .book-count {
+          background: #2563eb;
+          color: white;
+          font-size: 11px;
+          padding: 2px 8px;
+          border-radius: 999px;
+          font-weight: 600;
+        }
+
+        /* ── Loading Spinner ── */
+        .loading-wrapper {
+          text-align: center;
+          padding: 48px 0;
+          color: #6b7280;
+        }
+
+        .spinner {
+          width: 32px;
+          height: 32px;
+          border: 3px solid #e5e7eb;
+          border-top-color: #2563eb;
+          border-radius: 50%;
+          animation: spin 0.8s linear infinite;
+          margin: 0 auto 12px;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ── Footer ── */
+        .app-footer {
+          width: 100%;
+          background: #1e3a5f;
+          color: rgba(255,255,255,0.6);
+          text-align: center;
+          padding: 16px;
+          font-size: 13px;
+        }
+
+        /* ── Tablet: single column ── */
+        @media (max-width: 768px) {
+          .app-layout {
+            grid-template-columns: 1fr;   /* Stack on tablet */
+          }
+          .app-header h1 { font-size: 1.6rem; }
+          .app-container { padding: 24px 16px; }
+        }
+
+        /* ── Mobile ── */
+        @media (max-width: 480px) {
+          .app-header h1 { font-size: 1.3rem; }
+          .app-header { padding: 24px 16px; }
+          .app-container { padding: 16px 12px; }
+        }
+     
