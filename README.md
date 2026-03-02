@@ -40,6 +40,12 @@ cd frontend
 npm install
 npm run dev
 
+## 🛠️ Tech Stack
+
+Frontend - React , TypeScript
+Backend  - C# .NET
+Database - SQLite 
+
 
 ## 🗄️ Database
 
